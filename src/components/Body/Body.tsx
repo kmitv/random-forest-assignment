@@ -1,14 +1,8 @@
 import { Redirect, Route, Switch } from "react-router";
 
-// import { ApplicationState } from "../../app/store";
 import { FC } from "react";
 import { List } from "../List/List";
 import { Wrapper } from "./elements";
-
-// import { connect } from "react-redux";
-// import { pageSelector } from "../Menu/reducer";
-
-// type BodyProps = ReturnType<typeof mapStateToProps>;
 
 export const Body: FC = () => {
   return (
@@ -21,9 +15,3 @@ export const Body: FC = () => {
     </Wrapper>
   );
 };
-
-// const mapStateToProps = (state: ApplicationState) => ({
-//   page: pageSelector(state)
-// });
-
-// export const Body = connect(mapStateToProps)(BodyFC);

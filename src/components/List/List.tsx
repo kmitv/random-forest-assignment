@@ -1,18 +1,24 @@
 import { ChangeEvent, FC, useState } from "react";
-import {
-  ListWrapper,
-  SearchWrapper,
-  StyledCard,
-  StyledSearch,
-  Wrapper
-} from "./elements";
+import { Dispatch, bindActionCreators } from "@reduxjs/toolkit";
+import { ListWrapper, SearchWrapper, StyledSearch, Wrapper } from "./elements";
 import { LoadingOutlined, SearchOutlined } from "@ant-design/icons";
+import { addToFavorites, removeFromFavorites } from "./actions";
 
+import { ApplicationState } from "../../app/store";
 import { JobPosting } from "../../models/JobPosting";
+import { ListItem } from "../ListItem/ListItem";
 import axios from "axios";
+import { connect } from "react-redux";
+import { favoritesSelector } from "./reducer";
 
-export const List: FC = () => {
-  // const [isSearchQueryTyped, setIsSearchQueryTyped] = useState(false);
+type ListProps = ReturnType<typeof mapStateToProps> &
+  ReturnType<typeof mapDispatchToProps>;
+
+const ListFC: FC<ListProps> = ({
+  favoritesList,
+  addToFavorites,
+  removeFromFavorites
+}) => {
   const [areResultsLoading, setAreResultsLoading] = useState(false);
   const [typingTimeout, setTypingTimeout] = useState<NodeJS.Timeout>();
   const [searchQuery, setSearchQuery] = useState<string>("");
@@ -35,9 +41,7 @@ export const List: FC = () => {
             .then(response => {
               // handle success
               setAreResultsLoading(false);
-              console.log(response.data);
               setResults(response.data);
-              console.log("results.length :>> ", results && results.length);
             });
         }, 1000)
       );
@@ -60,11 +64,11 @@ export const List: FC = () => {
           results.length > 0 &&
           results.map(x => {
             return (
-              <StyledCard title={x.company} key={x.id} bordered={true}>
-                <p>Card content</p>
-                <p>Card content</p>
-                <p>Card content</p>
-              </StyledCard>
+              <ListItem
+                posting={x}
+                doesListIncludePosting={favoritesList.includes(x)}
+                key={x.id}
+              />
             );
           })}
         {!!results && results.length === 0 && <div>nic nie znalas</div>}
@@ -74,3 +78,12 @@ export const List: FC = () => {
     </Wrapper>
   );
 };
+
+const mapStateToProps = (state: ApplicationState) => ({
+  favoritesList: favoritesSelector(state)
+});
+
+const mapDispatchToProps = (dispatch: Dispatch) =>
+  bindActionCreators({ addToFavorites, removeFromFavorites }, dispatch);
+
+export const List = connect(mapStateToProps, mapDispatchToProps)(ListFC);

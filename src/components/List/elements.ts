@@ -1,5 +1,4 @@
-import { Card, Input } from "antd";
-
+import { Input } from "antd";
 import styled from "styled-components";
 
 export const Wrapper = styled.div`
@@ -29,19 +28,6 @@ export const ListWrapper = styled.div`
   align-items: center;
   overflow: auto;
   padding: 10px;
-`;
-
-export const StyledCard = styled(Card)`
-  width: 80%;
-  margin-bottom: 10px;
-  &:last-child {
-    &:after {
-      position: absolute;
-      content: "";
-      width: 100%;
-      height: 10px;
-    }
-  }
 `;
 
 export const StyledSearch = styled(Input)`

@@ -1,13 +1,13 @@
-// import { NavigationState } from "../components/Menu/reducer";
+import { FavoritesState, favoritesReducer } from "./../components/List/reducer";
 
 import { configureStore } from "@reduxjs/toolkit";
 
 export interface ApplicationState {
-  // navigation: NavigationState;
+  favorites: FavoritesState;
 }
 
 export default configureStore({
   reducer: {
-    // navigation: navigationReducer
+    favorites: favoritesReducer
   }
 });
