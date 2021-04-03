@@ -42,16 +42,11 @@ const ListFC: FC<ListProps> = ({ favoritesList }) => {
         setTimeout(() => {
           setAreResultsLoading(true);
           axios
-            .get(`/positions.json?utf8=✓&description=${value}&location=`, {
-              headers: {
-                "Content-Type": "application/json",
-                "Access-Control-Allow-Origin": "*"
-              }
-            })
+            .get(`/positions.json?utf8=✓&description=${value}&location=`)
             .then(response => {
               setAreResultsLoading(false);
-              setIsError(false);
               setResults(response.data);
+              setIsError(false);
             })
 
             .catch(error => {
