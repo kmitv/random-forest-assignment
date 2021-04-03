@@ -6,3 +6,6 @@ export const addToFavorites = createAction<JobPosting>(ADD_TO_FAVORITES);
 
 export const REMOVE_FROM_FAVORITES = "REMOVE_FROM_FAVORITES";
 export const removeFromFavorites = createAction<string>(REMOVE_FROM_FAVORITES);
+
+export const REPLACE_FAVORITES = "REPLACE_FAVORITES";
+export const replaceFavorites = createAction<JobPosting[]>(REPLACE_FAVORITES);

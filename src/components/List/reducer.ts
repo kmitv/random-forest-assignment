@@ -1,4 +1,8 @@
-import { addToFavorites, removeFromFavorites } from "./actions";
+import {
+  addToFavorites,
+  removeFromFavorites,
+  replaceFavorites
+} from "./actions";
 
 import { ApplicationState } from "../../app/store";
 import { JobPosting } from "../../models/JobPosting";
@@ -20,6 +24,11 @@ export const favoritesReducer = createReducer(initialState, builder => {
   builder.addCase(removeFromFavorites, (state, action) => {
     return {
       favoritesList: state.favoritesList.filter(x => x.id !== action.payload)
+    };
+  });
+  builder.addCase(replaceFavorites, (state, action) => {
+    return {
+      favoritesList: action.payload
     };
   });
 });

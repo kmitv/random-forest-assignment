@@ -20,6 +20,7 @@ const ListFC: FC<ListProps> = ({
   removeFromFavorites
 }) => {
   const [areResultsLoading, setAreResultsLoading] = useState(false);
+  const [isError, setIsError] = useState(false);
   const [typingTimeout, setTypingTimeout] = useState<NodeJS.Timeout>();
   const [searchQuery, setSearchQuery] = useState<string>("");
 
@@ -42,6 +43,12 @@ const ListFC: FC<ListProps> = ({
               // handle success
               setAreResultsLoading(false);
               setResults(response.data);
+              setIsError(false);
+            })
+
+            .catch(error => {
+              setIsError(true);
+              console.error(error);
             });
         }, 1000)
       );
