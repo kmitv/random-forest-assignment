@@ -1,3 +1,4 @@
+import { Menu } from "antd";
 import styled from "styled-components";
 
 export const Wrapper = styled.div`
@@ -10,4 +11,8 @@ export const MenuItem = styled.div`
   height: 100px;
   width: 100%;
   background-color: ivory;
+`;
+
+export const StyledMenu = styled(Menu)`
+  width: 256px;
 `;

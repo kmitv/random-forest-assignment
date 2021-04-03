@@ -15,22 +15,21 @@ export interface FavoritesState {
 const initialState: FavoritesState = { favoritesList: [] };
 
 export const favoritesReducer = createReducer(initialState, builder => {
-  builder.addCase(addToFavorites, (state, action) => {
-    const newFavoritesList = Array.from(
-      new Set([...state.favoritesList, action.payload])
-    );
-    return { favoritesList: newFavoritesList };
-  });
-  builder.addCase(removeFromFavorites, (state, action) => {
-    return {
-      favoritesList: state.favoritesList.filter(x => x.id !== action.payload)
-    };
-  });
-  builder.addCase(replaceFavorites, (state, action) => {
-    return {
-      favoritesList: action.payload
-    };
-  });
+  builder
+    .addCase(addToFavorites, (state, action) => {
+      const newFavoritesList = [...state.favoritesList, action.payload];
+      return { ...state, favoritesList: newFavoritesList };
+    })
+    .addCase(removeFromFavorites, (state, action) => {
+      return {
+        favoritesList: state.favoritesList.filter(x => x.id !== action.payload)
+      };
+    })
+    .addCase(replaceFavorites, (state, action) => {
+      return {
+        favoritesList: action.payload
+      };
+    });
 });
 
 export const favoritesSelector = (state: ApplicationState) =>

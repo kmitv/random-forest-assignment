@@ -1,3 +1,4 @@
+import { GithubOutlined } from "@ant-design/icons";
 import styled from "styled-components";
 
 export const Wrapper = styled.div`
@@ -16,13 +17,11 @@ export const Header = styled.div`
   flex: 0 0 auto;
   justify-content: center;
   align-items: center;
-  /* border-bottom: 1px #08c solid; */
 `;
 
 export const Main = styled.div`
   width: 100%;
   flex: 1;
-  /* background-color: pink; */
   display: flex;
   overflow: hidden;
 `;
@@ -30,4 +29,9 @@ export const Main = styled.div`
 export const HeaderName = styled.div`
   margin-left: 10px;
   font-size: 20px;
+`;
+
+export const StyledGithubOutlined = styled(GithubOutlined)`
+  font-size: 46px;
+  color: #08c;
 `;

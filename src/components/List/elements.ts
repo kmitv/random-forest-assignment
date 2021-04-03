@@ -1,3 +1,4 @@
+import { FileSearchOutlined } from "@ant-design/icons";
 import { Input } from "antd";
 import styled from "styled-components";
 
@@ -32,4 +33,17 @@ export const ListWrapper = styled.div`
 
 export const StyledSearch = styled(Input)`
   width: 80%;
+`;
+
+export const BlankScreen = styled.div`
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
+export const StyledFileSearchOutlined = styled(FileSearchOutlined)`
+  font-size: 100px;
+  color: #dce0e6;
 `;

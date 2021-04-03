@@ -1,12 +1,21 @@
+import {
+  BlankScreen,
+  ListWrapper,
+  SearchWrapper,
+  StyledFileSearchOutlined,
+  StyledSearch,
+  Wrapper
+} from "./elements";
 import { ChangeEvent, FC, useState } from "react";
 import { Dispatch, bindActionCreators } from "@reduxjs/toolkit";
-import { ListWrapper, SearchWrapper, StyledSearch, Wrapper } from "./elements";
 import { LoadingOutlined, SearchOutlined } from "@ant-design/icons";
 import { addToFavorites, removeFromFavorites } from "./actions";
 
 import { ApplicationState } from "../../app/store";
+import { Empty } from "antd";
 import { JobPosting } from "../../models/JobPosting";
 import { ListItem } from "../ListItem/ListItem";
+import { Spin } from "antd";
 import axios from "axios";
 import { connect } from "react-redux";
 import { favoritesSelector } from "./reducer";
@@ -14,11 +23,7 @@ import { favoritesSelector } from "./reducer";
 type ListProps = ReturnType<typeof mapStateToProps> &
   ReturnType<typeof mapDispatchToProps>;
 
-const ListFC: FC<ListProps> = ({
-  favoritesList,
-  addToFavorites,
-  removeFromFavorites
-}) => {
+const ListFC: FC<ListProps> = ({ favoritesList }) => {
   const [areResultsLoading, setAreResultsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
   const [typingTimeout, setTypingTimeout] = useState<NodeJS.Timeout>();
@@ -35,12 +40,10 @@ const ListFC: FC<ListProps> = ({
     !!value &&
       setTypingTimeout(
         setTimeout(() => {
-          console.log(`Szukaj: ${value}`);
           setAreResultsLoading(true);
           axios
             .get(`/positions.json?utf8=✓&description=${value}&location=`)
             .then(response => {
-              // handle success
               setAreResultsLoading(false);
               setResults(response.data);
               setIsError(false);
@@ -69,18 +72,41 @@ const ListFC: FC<ListProps> = ({
       <ListWrapper>
         {!!results &&
           results.length > 0 &&
+          !isError &&
           results.map(x => {
             return (
               <ListItem
                 posting={x}
-                doesListIncludePosting={favoritesList.includes(x)}
+                doesListIncludePosting={favoritesList.some(
+                  item => item.id === x.id
+                )}
                 key={x.id}
               />
             );
           })}
-        {!!results && results.length === 0 && <div>nic nie znalas</div>}
-        {!results && areResultsLoading && <div>ładowanko</div>}
-        {!results && !areResultsLoading && <div>no machnij</div>}
+        {!!results && results.length === 0 && !isError && (
+          <BlankScreen>
+            <Empty description="Found no jobs matching description 😔" />
+          </BlankScreen>
+        )}
+        {!results && areResultsLoading && !isError && (
+          <BlankScreen>
+            <Spin size="large" />
+          </BlankScreen>
+        )}
+        {!results && !areResultsLoading && !isError && (
+          <BlankScreen>
+            <Empty
+              image={<StyledFileSearchOutlined />}
+              description="Start typing to search for jobs"
+            />
+          </BlankScreen>
+        )}
+        {isError && (
+          <BlankScreen>
+            <Empty description="An error occured" />
+          </BlankScreen>
+        )}
       </ListWrapper>
     </Wrapper>
   );

@@ -1,9 +1,9 @@
+import { Button, Tooltip } from "antd";
 import { Dispatch, bindActionCreators } from "@reduxjs/toolkit";
 import { StarFilled, StarOutlined } from "@ant-design/icons";
 import { StyledCard, TitleLogo, TitleText, TitleWrapper } from "./elements";
 import { addToFavorites, removeFromFavorites } from "../List/actions";
 
-import { Button } from "antd";
 import { FC } from "react";
 import { JobPosting } from "../../models/JobPosting";
 import { connect } from "react-redux";
@@ -31,12 +31,20 @@ const ListItemFC: FC<ListItemProps> = ({
         <TitleWrapper>
           <TitleLogo src={posting.company_logo} alt={posting.company} />
           <TitleText>{posting.title}</TitleText>
-          <Button
-            type="primary"
-            shape="circle"
-            onClick={() => handleFavoriteClick()}
-            icon={doesListIncludePosting ? <StarFilled /> : <StarOutlined />}
-          />
+          <Tooltip
+            title={
+              doesListIncludePosting
+                ? "Remove from favorites"
+                : "Add to favorites"
+            }
+          >
+            <Button
+              type="primary"
+              shape="circle"
+              onClick={() => handleFavoriteClick()}
+              icon={doesListIncludePosting ? <StarFilled /> : <StarOutlined />}
+            />
+          </Tooltip>
         </TitleWrapper>
       }
       key={posting.id}

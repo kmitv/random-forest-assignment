@@ -18,7 +18,9 @@ const FavoritesFC: FC<FavoritesProps> = ({ favoritesList }) => {
         return (
           <ListItem
             posting={x}
-            doesListIncludePosting={favoritesList.includes(x)}
+            doesListIncludePosting={favoritesList.some(
+              item => item.id === x.id
+            )}
             key={x.id}
           />
         );

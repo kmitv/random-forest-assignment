@@ -2,25 +2,24 @@ import { StarOutlined, UnorderedListOutlined } from "@ant-design/icons";
 
 import { FC } from "react";
 import { Link } from "react-router-dom";
-import { Menu } from "antd";
+import { StyledMenu } from "./elements";
 import { useLocation } from "react-router-dom";
 
 export const SideMenu: FC = () => {
   const location = useLocation();
   return (
-    <Menu
-      style={{ width: 256 }}
+    <StyledMenu
       defaultSelectedKeys={["/list"]}
       selectedKeys={[location.pathname]}
       mode="inline"
     >
-      <Menu.Item key="/list" icon={<UnorderedListOutlined />}>
+      <StyledMenu.Item key="/list" icon={<UnorderedListOutlined />}>
         <Link to="/list">List</Link>
-      </Menu.Item>
+      </StyledMenu.Item>
 
-      <Menu.Item key="/favorites" icon={<StarOutlined />}>
+      <StyledMenu.Item key="/favorites" icon={<StarOutlined />}>
         <Link to="/favorites">Favorites</Link>
-      </Menu.Item>
-    </Menu>
+      </StyledMenu.Item>
+    </StyledMenu>
   );
 };

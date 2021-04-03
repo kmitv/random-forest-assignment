@@ -1,11 +1,9 @@
 import {
   ADD_TO_FAVORITES,
   REMOVE_FROM_FAVORITES,
-  REPLACE_FAVORITES,
-  addToFavorites,
-  removeFromFavorites
+  REPLACE_FAVORITES
 } from "./actions";
-import { call, put, select, takeEvery } from "redux-saga/effects";
+import { put, select, takeEvery } from "redux-saga/effects";
 
 import { INITIALIZE_APP } from "../../app/rootSaga";
 import { JobPosting } from "../../models/JobPosting";
@@ -17,26 +15,17 @@ export function* favoritesSaga() {
   yield takeEvery(INITIALIZE_APP, getFavoritesFromLocalStorage);
 }
 
-function* saveFavoritesToLocalStorage(
-  action:
-    | ReturnType<typeof removeFromFavorites>
-    | ReturnType<typeof addToFavorites>
-) {
+function* saveFavoritesToLocalStorage() {
   const favoritesList: JobPosting[] = yield select(favoritesSelector);
   const serializedFavoritesList: string = yield JSON.stringify(favoritesList);
   yield localStorage.setItem("favoritesList", serializedFavoritesList);
 }
 
 function* getFavoritesFromLocalStorage() {
-  console.log("GET");
-  const favoritesList: JobPosting[] = yield select(favoritesSelector);
-
   const retrievedFavoritesList = localStorage.getItem("favoritesList");
   const parsedFavoritesList: JobPosting[] = !!retrievedFavoritesList
     ? JSON.parse(retrievedFavoritesList)
     : [];
 
   yield put({ type: REPLACE_FAVORITES, payload: parsedFavoritesList });
-
-  yield call(console.log, favoritesList);
 }
